@@ -3,6 +3,7 @@ from datetime import date, timedelta
 
 register = template.Library()
 
+
 # THIS FILE WILL CONTAIN OUR CUSTOM FILTERS
 
 # THIS FILTER CONVERTS THE DATE TO A HUMAN READABLE STRING
@@ -20,3 +21,17 @@ def get_due_date_string(value):
         return "In %s days" % delta.days
 
 
+@register.filter(name='due_date_color')
+def due_date_color(value):
+    delta = value - date.today()
+
+    if delta.days == 0:
+        return "orange"
+    elif delta.days < 1:
+        return "red"
+    elif delta.days == 1:
+        return "yellow"
+    elif delta.days >= 3:
+        return "green"
+    elif delta.days > 1 and delta.days < 3:
+        return "orange"
